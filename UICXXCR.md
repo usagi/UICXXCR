@@ -1,4 +1,4 @@
-# Usagi Ito's C++ Cording Rule Regulation 1.0.2
+# Usagi Ito's C++ Cording Rule Regulation 1.0.3
 
 ## C++言語標準
 
@@ -7,6 +7,12 @@
         - インクルードガードは例外として `#pragma once` を用いて構わない
         - OpenMP など標準化された拡張は `Clang` でも使用可能であれば用いて構わない
 - `clang++` のコンパイルオプション `-Wall -pedantic` で警告なしとする
+
+## 特殊な処理系への対応
+
+- `em++` のデバッグビルド時には `-s SAFE_HEAP=1` を付ける
+- `em++` のデバッグビルド時には `-s ASSERTIONS=2` を付ける
+- `em++` のリリースビルド時には `-s ALLOW_MEMORY_GROWTH=0 -s TOTAL_MEMORY=1073741824` のようにメモリー量を明示する
 
 ## 命名
 
