@@ -1,4 +1,4 @@
-# Usagi Ito's C++ Cording Rule Regulation 1.0.1
+# Usagi Ito's C++ Cording Rule Regulation 1.0.2
 
 ## C++言語標準
 
@@ -56,7 +56,7 @@ if(const fuga = initialize_fuga())
 
 // ヨイ
 std::int32_t x = 123;
-auto *hoge = &x;
+auto* hoge = &x;
 x += 2;
 x *= 3;
 
@@ -475,6 +475,13 @@ const auto y = hoge()
 - `#ifdef X` を `#if defined(X)` に優先して用いる
 - 複数行からなるCプリプロセッサーはインデントする
 
+## デバッグビルド・リリースビルド向けの分岐処理
+
+- `#ifdef NDEBUG` をデバッグビルド向けの特殊化に用いる
+    - `#ifndef NDEBUG` をリリースビルド向けの特殊化に用いる
+
+※`NDEBUG` Cプリプロセッサーマクロはビルドツール cmake を用いる場合には `-DCMAKE_BUILD_TYPE=release` ないし `-DCMAKE_BUILD_TYPE=relwithdebinfo` の場合に自動的に付与される
+
 ## テストとモック
 
 - 一時的な実験用のコードなどを除き、プロダクトのコードは [googletest](https://code.google.com/p/googletest/), [googlemock](https://code.google.com/p/googlemock/) を用いて設計に基づいた単体テストを用意する
@@ -482,6 +489,38 @@ const auto y = hoge()
 ## ロギング
 
 - 一時的な実験用のコードなどを除き、プロダクトのコードは [google-glog](https://code.google.com/p/google-glog/) によるロギングを実装する
+
+## 実行時引数の取り扱い
+
+- [google-gflags](https://code.google.com/p/gflags/)を用いる
+
+```cpp
+#include <iostream>
+
+#include <gflags/gflags.h>
+#include <glog/logging.h>
+
+DEFINE_double ( some_parameter, 3.14, "some parameter" );
+
+int main ( const int count_of_argument, const char* const* const arguments )
+{
+  using namespace std;
+  google::InitGoogleLogging ( arguments[0] );
+#ifdef NDEBUG
+  google::SetUsageMessage ( "RELEASE help message"s );
+  google::SetVersionString ( "RELEASE version string"s );
+#else
+  google::SetUsageMessage ( "DEBUG help message"s );
+  google::SetVersionString ( "DEBUG version string"s );
+#endif
+  google::ParseCommandLineFlags ( const_cast<int*> ( &count_of_argument ),
+                                  const_cast<char***> ( &arguments ), true );
+  google::LogToStderr();
+  LOG ( INFO ) << "some_parameter is: " << FLAGS_some_parameter;
+}
+```
+
+※この例を実行する際に引数として `--help` `--version` `-some_parameter 123.456` などすると glog, gflags の動作を確認できる
 
 ## [Doxygen](http://www.doxygen.jp/commands.html)
 
@@ -502,6 +541,12 @@ const auto y = hoge()
 /// @exception std::out_of_range value が unorm 値 でない場合に送出
 auto hoge( const float value ) -> bool;
 ```
+
+## プロジェクト管理
+
+- [cmake](http://www.cmake.org/) を一次的に用いる
+- [git](http://git-scm.com/) を用いてリポジトリーのバージョン管理を行う
+    - 複数の開発者や master ブランチの品質を維持する目的で開発工程を定義する場合には [github-flow](http://githubflow.github.io/) を推奨とする
 
 ## リフォーマッターの設定
 
