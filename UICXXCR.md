@@ -1,4 +1,4 @@
-# Usagi Ito's C++ Cording Rule Regulation 1.0.5
+# Usagi Ito's C++ Cording Rule Regulation 1.1.0
 
 ## C++言語標準
 
@@ -507,39 +507,47 @@ const auto y = hoge()
 
 ## ロギング
 
-- 一時的な実験用のコードなどを除き、プロダクトのコードは [google-glog](https://code.google.com/p/google-glog/) によるロギングを実装する
+- [wonderland.log](https://github.com/usagi/wonderland.log) を推奨とする
+- 以下のライブラリーの使用は非推奨とする
+    - [glog](https://code.google.com/p/google-glog/) はスタックトレースの取得にプラットフォーム依存性が強く Emscripten での使用が難しいため非推奨とする
+
+```cpp
+#ifdef NDEBUG
+  #define WRP_WONDERLAND_LOG_DISABLE
+#endif
+
+#include <wonder_rabbit_project/wonderland/log.hxx>
+
+int main ( const int count_of_argument, const char* const* const arguments )
+{
+  using namespace wonder_rabbit_project::wonderland;
+  LOG  << "hello, wonderland.log!";
+  LOGE << "error test";
+  LOG_IF_FATAL( log::if_fatal::exit );
+  LOGF << "fatal test";
+}
+```
 
 ## 実行時引数の取り扱い
 
-- [google-gflags](https://code.google.com/p/gflags/)を用いる
+- [cmdline](https://github.com/tanakh/cmdline) を推奨とする
+- 以下のライブラリーの使用は非推奨とする
+    - [gflags](https://code.google.com/p/gflags/) は pthread 依存性があり Emscripten での使用が難しいため非推奨とする
 
 ```cpp
 #include <iostream>
-
-#include <gflags/gflags.h>
-#include <glog/logging.h>
-
-DEFINE_double ( some_parameter, 3.14, "some parameter" );
+#include <string>
+#include <cmdline.h>
 
 int main ( const int count_of_argument, const char* const* const arguments )
 {
   using namespace std;
-  google::InitGoogleLogging ( arguments[0] );
-#ifdef NDEBUG
-  google::SetUsageMessage ( "RELEASE help message"s );
-  google::SetVersionString ( "RELEASE version string"s );
-#else
-  google::SetUsageMessage ( "DEBUG help message"s );
-  google::SetVersionString ( "DEBUG version string"s );
-#endif
-  google::ParseCommandLineFlags ( const_cast<int*> ( &count_of_argument ),
-                                  const_cast<char***> ( &arguments ), true );
-  google::LogToStderr();
-  LOG ( INFO ) << "some_parameter is: " << FLAGS_some_parameter;
+  cmdline::parser p;
+  p.add<string> ( "long name", 'n', "description", false, "default value" );
+  p.parse_check ( count_of_argument, const_cast<char**> ( arguments ) );
+  cout << "long name is: " << p.get<string> ( "long name" );
 }
 ```
-
-※この例を実行する際に引数として `--help` `--version` `-some_parameter 123.456` などすると glog, gflags の動作を確認できる
 
 ## [Doxygen](http://www.doxygen.jp/commands.html)
 
