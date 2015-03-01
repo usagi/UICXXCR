@@ -1,4 +1,4 @@
-# Usagi Ito's C++ Cording Rule Regulation 1.0.0
+# Usagi Ito's C++ Cording Rule Regulation 1.0.1
 
 ## C++言語標準
 
@@ -194,8 +194,13 @@ auto some_volume = 4.0f * pi<float>() * std::powf( some_radius, 3.0f ) / 3.0f ;
 
 - 原則として単位次元の有効な物理量は [`boost::units`](http://www.boost.org/doc/libs/1_57_0/doc/html/boost_units.html) を用いる
     - 例外として、実装詳細でパフォーマンス上の都合、行列演算、その他複雑な計算等の為にコスト的にやむを得ない場合には物理量に対しても生の値を用いて構わない
+- 原則として単位次元はSI単位系を採用する
+    - 例外として適当な場合には質量の基本単位としてグラム、あるいは他の単位においてもSI接頭辞と組み合わせた単位を用いて構わない
+    - 例外として適当な場合には情報量の接頭辞として[IEEE1541](http://en.wikipedia.org/wiki/IEEE_1541-2002)の定める2進接頭辞を用いて構わない
 - `<cstdint>` に含まれない組み込み型(Int128, Float128 等)や任意精度が必要な場合には [`boost::multiprecision`](http://www.boost.org/doc/libs/1_57_0/libs/multiprecision/doc/html/index.html) を用いる
     - パフォーマンスボトルネックが顕著でない場合、整数については cpp\_int 、 実数については cpp\_bin\_float, cpp\_dec\_float 実装を用いる
+- 10進数の数値リテラルは小数点の存在する位置から見て3桁ごとに`'`で区切る
+- 2進数、16進数の数値リテラルは 1 byte 境界ごとに `'` で区切る
 
 ```cpp
 #include <iostream>
@@ -223,6 +228,12 @@ auto main()
 ```
 
 (※このコードを[実行](http://melpon.org/wandbox/permlink/T3A5S0nuekWdQIQB)すると `mass of the Earth: 5.99116e+24 kg` を得られる。)
+
+```cpp
+/// @brief 真空中の光速
+const auto c = 2.997'924'58e+8 * meter / second;
+```
+
 
 ## 文字列
 
