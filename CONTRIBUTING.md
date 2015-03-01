@@ -1,0 +1,3 @@
+- エラッタの発見や提案があれば [Issues](https://github.com/usagi/UICXXCR/issue://github.com/usagi/UICXXCR/issues) をまず登録して下さい
+- pull-request を送る際は事前に作成した Issue を基に修正内容を日本語で解説した上でとりあえずは master へ向けて行って下さい
+    - 大きな修正、特に記述内容の変更となる場合には master へマージせず適当な対応を検討することがあります
