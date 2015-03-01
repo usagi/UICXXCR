@@ -1,4 +1,4 @@
-# Usagi Ito's C++ Cording Rule Regulation 1.0.3
+# Usagi Ito's C++ Cording Rule Regulation 1.0.4
 
 ## C++言語標準
 
@@ -207,6 +207,7 @@ auto some_volume = 4.0f * pi<float>() * std::powf( some_radius, 3.0f ) / 3.0f ;
     - パフォーマンスボトルネックが顕著でない場合、整数については cpp\_int 、 実数については cpp\_bin\_float, cpp\_dec\_float 実装を用いる
 - 10進数の数値リテラルは小数点の存在する位置から見て3桁ごとに`'`で区切る
 - 2進数、16進数の数値リテラルは 1 byte 境界ごとに `'` で区切る
+- 翻訳時に最適化可能な計算は計算結果の値ではなく意味の理解しやすい単位での計算式でコードする
 
 ```cpp
 #include <iostream>
@@ -236,8 +237,17 @@ auto main()
 (※このコードを[実行](http://melpon.org/wandbox/permlink/T3A5S0nuekWdQIQB)すると `mass of the Earth: 5.99116e+24 kg` を得られる。)
 
 ```cpp
+// ダメ
+/// @brief 真空中の光速
+const auto c = 2.99792458e+8 * meter / second;
+/// @brief 1日
+const auto day = 86400 * second;
+
+// ヨイ
 /// @brief 真空中の光速
 const auto c = 2.997'924'58e+8 * meter / second;
+/// @brief 1日
+const auto day = 24 * 60 * 60 * second;
 ```
 
 
