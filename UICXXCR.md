@@ -1,4 +1,4 @@
-# Usagi Ito's C++ Cording Rule Regulation 1.1.0
+# Usagi Ito's C++ Cording Rule Regulation 1.1.1
 
 ## C++言語標準
 
@@ -583,12 +583,8 @@ auto hoge( const float value ) -> bool;
 
 ```astyle
 astyle \
-  --style=allman \
+  --style=break \
   --indent=spaces=2 \
-  --attach-namespaces \
-  --attach-classes \
-  --attach-inlines \
-  --attach-extern-c \
   --indent-switches \
   --indent-namespaces \
   --indent-preproc-define \
@@ -608,6 +604,7 @@ astyle \
   --max-code-length=100 \
   --mode=c \
   --lineend=linux \
+  --suffix=none \
   --options=none \
   `find \
     -type f \
@@ -619,12 +616,8 @@ astyle \
 #### `.astylerc` で設定する場合
 
 ```astyle
-style=allman
+style=break
 indent=spaces=2
-attach-namespaces
-attach-classes
-attach-inlines
-attach-extern-c
 indent-switches
 indent-namespaces
 indent-preproc-define
@@ -644,5 +637,6 @@ remove-comment-prefix
 max-code-length=100
 mode=c
 lineend=linux
+suffix=none
 ```
 
