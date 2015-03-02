@@ -1,4 +1,4 @@
-# Usagi Ito's C++ Cording Rule Regulation 1.1.1
+# Usagi Ito's C++ Cording Rule Regulation 1.1.2
 
 ## C++言語標準
 
@@ -331,6 +331,8 @@ std::vector< decltype( some_data   ) > some_data_set;
     - 原則として戻り値の型は型推論とする
 - 原則として `noexcept` とする
 - 原則として仮引数を1つだけ取る構築子は `explicit` 修飾する
+- 原則としてフリー関数を活用し粗結合性のコードを心がける。
+    - クラスメンバー関数の乱用による不要な密結合化を避ける
 
 ```cpp
 // ダメ
