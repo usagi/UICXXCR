@@ -505,6 +505,56 @@ const auto y = hoge()
 
 - 一時的な実験用のコードなどを除き、プロダクトのコードは [googletest](https://code.google.com/p/googletest/), [googlemock](https://code.google.com/p/googlemock/) を用いて設計に基づいた単体テストを用意する
 
+```cpp
+// 実際にはこれは開発中のソフトウェアの一部機能で .hxx にインラインないし .hxx + .cxx で定義されている部分
+// この例では簡単のため直接テスト用のソースに記述する
+#include <cstdint>
+auto f( const std::uint8_t x ) -> std::uint8_t { return x * x; }
+
+// gtest を用いたテストケースの記述例
+#include <gtest/gtest.h>
+TEST( test1, 0 ) { EXPECT_EQ( 0, f( 0 ) ); }
+TEST( test1, 1 ) { EXPECT_EQ( 1, f( 1 ) ); }
+TEST( test1, 2 ) { EXPECT_EQ( 4, f( 2 ) ); }
+TEST( test1, 4 ) { EXPECT_EQ( 16, f( 4 ) ); }
+TEST( test1, 8 ) { EXPECT_EQ( 64, f( 8 ) ); }
+TEST( test1, 16 ) { EXPECT_EQ( 256, f( 16 ) ); }
+```
+
+`clang++ -std=c++14 -stdlib=libc++ a.cxx -o a.out -lgtest_main -lgtest -lpthread` して実行すれば以下のようにテスト結果が得られる。
+
+```zsh
+Running main() from gtest_main.cc
+[==========] Running 6 tests from 1 test case.
+[----------] Global test environment set-up.
+[----------] 6 tests from test1
+[ RUN      ] test1.0
+[       OK ] test1.0 (0 ms)
+[ RUN      ] test1.1
+[       OK ] test1.1 (0 ms)
+[ RUN      ] test1.2
+[       OK ] test1.2 (0 ms)
+[ RUN      ] test1.4
+[       OK ] test1.4 (0 ms)
+[ RUN      ] test1.8
+[       OK ] test1.8 (0 ms)
+[ RUN      ] test1.16
+a.cxx:12: Failure
+Value of: f( 16 )
+  Actual: '\0'
+Expected: 256
+[  FAILED  ] test1.16 (0 ms)
+[----------] 6 tests from test1 (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test case ran. (0 ms total)
+[  PASSED  ] 5 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] test1.16
+
+ 1 FAILED TEST
+```
+
 ## ロギング
 
 - [wonderland.log](https://github.com/usagi/wonderland.log) を推奨とする
