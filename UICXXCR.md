@@ -5,10 +5,21 @@
 - C++14 に準拠する
     - 原則として処理系の独自拡張機能は用いない
         - インクルードガードは例外として `#pragma once` を用いて構わない
-        - OpenMP など標準化された拡張は `Clang` でも使用可能であれば用いて構わない
-- `clang++` のコンパイルオプション `-Wall -pedantic` で警告なしとする
+        - OpenMP など標準化された拡張は `clang++` または `g++` で使用可能であれば用いて構わない
+        - OpenMP 自動並列化を行う `g++` の Parallel Mode 拡張は用いて構わない
+- `clang++` ないし `g++` のコンパイルオプション `-Wall -pedantic` で警告なしとする
 
-## 特殊な処理系への対応
+## 処理系への対応
+
+### GCC/libstdc++
+
+- `g++` のデバッグビルド時には `-D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC` を付ける
+
+### Clang/libc++
+
+- `clang++ -stdlib=libc++` のデバッグビルド時には `-D_LIBCPP_DEBUG`
+
+### Emscripten
 
 - `em++` のデバッグビルド時には `-s SAFE_HEAP=1` を付ける
 - `em++` のデバッグビルド時には `-s ASSERTIONS=2` を付ける
