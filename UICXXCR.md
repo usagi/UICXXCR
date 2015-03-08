@@ -1,4 +1,4 @@
-# Usagi Ito's C++ Cording Rule Regulation 1.1.2
+# Usagi Ito's C++ Cording Rule Regulation 1.2.0
 
 ## C++言語標準
 
@@ -23,6 +23,7 @@
 
 - `em++` のデバッグビルド時には `-s SAFE_HEAP=1` を付ける
 - `em++` のデバッグビルド時には `-s ASSERTIONS=2` を付ける
+- `em++` のデバッグビルド時には `-s DEMANGLE_SUPPORT=1` を付ける
 - `em++` のリリースビルド時には `-s ALLOW_MEMORY_GROWTH=0 -s TOTAL_MEMORY=1073741824` のようにメモリー量を明示する
 
 ## 命名
@@ -646,7 +647,7 @@ auto hoge( const float value ) -> bool;
 
 - [cmake](http://www.cmake.org/) を一次的に用いる
 - [git](http://git-scm.com/) を用いてリポジトリーのバージョン管理を行う
-    - 複数の開発者や master ブランチの品質を維持する目的で開発工程を定義する場合には [github-flow](http://githubflow.github.io/) を推奨とする
+    - 複数の開発者や master ブランチの品質を維持する目的で開発工程を定義する場合には [github+test-flow](github+test-flow.md) を推奨とする
 
 ## リフォーマッターの設定
 
