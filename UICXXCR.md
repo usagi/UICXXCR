@@ -1,4 +1,4 @@
-# Usagi Ito's C++ Cording Rule Regulation 1.2.0
+# Usagi Ito's C++ Coding Rule Regulation 1.2.1
 
 ## C++言語標準
 
