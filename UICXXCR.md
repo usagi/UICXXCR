@@ -1,4 +1,4 @@
-# Usagi Ito's C++ Coding Rule Regulation 1.2.1
+# Usagi Ito's C++ Coding Rule Regulation 1.3.0
 
 ## C++言語標準
 
