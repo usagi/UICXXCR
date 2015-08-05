@@ -58,6 +58,7 @@
 
 - 関連したステートメントのグループの区切りには空行を入れる
 - 空行は1行のみとする
+- 空行におけるインデントはスコープのインデントにあわせる
 - キーワードごと直後に空白を挿入する
     - 但し、単行演算子の直後には不要とする(例: `*some_object`)
 - ポインター(`*`)、参照(`&` `&&`)の直後に空白を挿入する
@@ -661,6 +662,7 @@ astyle \
   --indent=spaces=2 \
   --indent-switches \
   --indent-namespaces \
+  --indent-preproc-block \
   --indent-preproc-define \
   --indent-col1-comments \
   --break-blocks \
@@ -694,6 +696,7 @@ style=break
 indent=spaces=2
 indent-switches
 indent-namespaces
+indent-preproc-block
 indent-preproc-define
 indent-col1-comments
 break-blocks
